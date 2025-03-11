@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seven Pi Over Four Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .widget-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: auto;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 80%;
+            font-size: 16px;
+        }
+        button {
+            background: #0056b3;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #004494;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget-container">
+    <h2>Seven Pi Over Four Calendar</h2>
+    <p><strong>Today's 7π/4 Date:</strong></p>
+    <p id="currentDate"></p>
+    <hr>
+    <p>Enter a Gregorian Date to Convert:</p>
+    <input type="date" id="gregorianDate">
+    <button onclick="convertDateInput()">Convert</button>
+    <p class="result" id="conversionResult"></p>
+</div>
+
+<!-- Link to External JavaScript -->
+<script src="https://raw.githubusercontent.com/didibella/7piover4-Calendar-/1889180371aaebae7857ec8a24b9ca0cc357cbfa/seven-pi-over-four.js"></script>
+
+<script>
+    function convertDateInput() {
+        const inputDate = document.getElementById("gregorianDate").value;
+        if (inputDate) {
+            const convertedDate = gregorianToSevenPiOverFour(inputDate);
+            let resultText = `Year: ${convertedDate.year}, Month: ${convertedDate.month}, Day: ${convertedDate.day}, 
+                              Week: ${convertedDate.week_of_macro_year}, Day of Week: ${convertedDate.day_of_week}`;
+
+            if (convertedDate.intercalary_year) {
+                resultText += ` (Intercalary Year)`;
+                if (convertedDate.micro_year_day !== null) {
+                    resultText += ` | Micro Year Day: ${convertedDate.micro_year_day}`;
+                }
+            }
+
+            document.getElementById("conversionResult").textContent = resultText;
+        } else {
+            document.getElementById("conversionResult").textContent = "Please enter a valid date.";
+        }
+    }
+
+    // Auto-update today's date
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date();
+        const convertedDate = gregorianToSevenPiOverFour(today);
+        document.getElementById("currentDate").textContent = 
+            `Year: ${convertedDate.year}, Month: ${convertedDate.month}, Day: ${convertedDate.day}, 
+             Week: ${convertedDate.week_of_macro_year}, Day of Week: ${convertedDate.day_of_week}`;
+    });
+</script>
+
+</body>
+</html>
